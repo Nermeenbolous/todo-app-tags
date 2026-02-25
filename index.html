@@ -1,0 +1,30 @@
+<div id="app">
+  <h1>Task Manager</h1>
+  
+  <form id="todo-form">
+    <input type="text" id="task-input" placeholder="Task name...">
+    <select id="tag-input">
+      <option value="">No Tag</option>
+      <option value="school">School</option>
+      <option value="work">Work</option>
+      <option value="personal">Personal</option>
+    </select>
+    <button type="submit">Add Task</button>
+    <p id="error-msg" style="color:red; display:none;">Task name cannot be blank!</p>
+  </form>
+
+  <div class="filters">
+    <button onclick="setFilter('all')">All</button>
+    <button onclick="setFilter('active')">Active</button>
+    <button onclick="setFilter('completed')">Completed</button>
+    <select id="tag-filter" onchange="setTagFilter(this.value)">
+      <option value="all">All Tags</option>
+      <option value="school">School</option>
+      <option value="work">Work</option>
+      <option value="personal">Personal</option>
+    </select>
+  </div>
+
+  <p id="counter">0 active tasks</p>
+  <ul id="todo-list"></ul>
+</div>
