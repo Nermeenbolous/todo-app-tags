@@ -1,0 +1,119 @@
+/* General Layout */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f7f6;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+  color: #333;
+}
+
+#app {
+  background: white;
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+/* Form Styles */
+#todo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+#task-input, #tag-input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+button {
+  cursor: pointer;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+#todo-form button {
+  background-color: #3498db;
+  color: white;
+}
+
+#todo-form button:hover {
+  background-color: #2980b9;
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+  justify-content: center;
+}
+
+.filters button {
+  background: #ecf0f1;
+  color: #7f8c8d;
+  font-size: 0.85rem;
+}
+
+.filters button:hover {
+  background: #bdc3c7;
+}
+
+#tag-filter {
+  padding: 5px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+/* Task List Items */
+#todo-list {
+  list-style: none;
+  padding: 0;
+}
+
+#todo-list li {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#todo-list li span {
+  flex-grow: 1;
+}
+
+/* Tag Badges */
+.tag-badge {
+  font-size: 0.7rem;
+  background: #e1e8ed;
+  padding: 2px 8px;
+  border-radius: 10px;
+  color: #607d8b;
+  text-transform: uppercase;
+  margin-left: 10px;
+}
+
+#counter {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #95a5a6;
+  margin-top: 10px;
+}
