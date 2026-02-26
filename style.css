@@ -1,41 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Manager</title>
-    <link rel="stylesheet" href="style.css"> 
-</head>
-<body>
-    <div id="app">
-        <h1>Task Manager</h1>
-        <form id="todo-form">
-            <input type="text" id="task-input" placeholder="Task name...">
-            <select id="tag-input">
-                <option value="">No Tag</option>
-                <option value="school">School</option>
-                <option value="work">Work</option>
-                <option value="personal">Personal</option>
-            </select>
-            <button type="submit">Add Task</button>
-            <p id="error-msg" style="color:red; display:none;">Task name cannot be blank!</p>
-        </form>
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+}
 
-        <div class="filters">
-            <button onclick="setFilter('all')">All</button>
-            <button onclick="setFilter('active')">Active</button>
-            <button onclick="setFilter('completed')">Completed</button>
-            <select id="tag-filter" onchange="setTagFilter(this.value)">
-                <option value="all">All Tags</option>
-                <option value="school">School</option>
-                <option value="work">Work</option>
-                <option value="personal">Personal</option>
-            </select>
-        </div>
+#app {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    width: 400px;
+}
 
-        <p id="counter">0 active tasks</p>
-        <ul id="todo-list"></ul>
-    </div>
-    <script src="script.js"></script>
-</body>
-</html>
+h1 { text-align: center; color: #333; }
+
+#todo-form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+
+input, select, button { padding: 10px; border-radius: 5px; border: 1px solid #ddd; }
+
+button { cursor: pointer; background: #3498db; color: white; font-weight: bold; border: none; }
+button:hover { background: #2980b9; }
+
+.filters { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.status-filters { display: flex; justify-content: space-between; }
+.status-filters button { flex: 1; margin: 0 2px; font-size: 0.8rem; background: #95a5a6; }
+
+#todo-list { list-style: none; padding: 0; }
+li { 
+    display: flex; justify-content: space-between; align-items: center; 
+    padding: 10px; border-bottom: 1px solid #eee; 
+}
+li.completed span { text-decoration: line-through; color: #888; } [cite: 42]
+.delete-btn { background: #e74c3c; margin-left: 5px; }
+.delete-btn:hover { background: #c0392b; }
+#counter { text-align: center; font-weight: bold; color: #555; }
