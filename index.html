@@ -1,59 +1,98 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Manager | Persistence & Tags</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+// Initialize state from localStorage
+let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+let currentFilter = 'all';
+let currentTagFilter = 'all';
 
-    <div id="app">
-        <h1>Task Manager</h1>
-        
-        <form id="todo-form">
-            <div class="input-row">
-                <input type="text" id="task-input" placeholder="What needs to be done?" aria-label="Task name">
-                <select id="tag-input" aria-label="Select Tag">
-                    <option value="">No Tag</option>
-                    <option value="school">School</option>
-                    <option value="work">Work</option>
-                    <option value="personal">Personal</option>
-                </select>
+const form = document.getElementById('todo-form');
+const taskInput = document.getElementById('task-input');
+const tagInput = document.getElementById('tag-input');
+const list = document.getElementById('todo-list');
+const errorMsg = document.getElementById('error-msg');
+const counter = document.getElementById('counter');
+
+// Add Task
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const text = taskInput.value.trim();
+    if (!text) {
+        errorMsg.style.display = 'block';
+        return;
+    }
+
+    const newTask = {
+        id: Date.now(),
+        text: text,
+        tag: tagInput.value || 'personal', // Default to personal if no tag selected
+        done: false
+    };
+
+    tasks.push(newTask);
+    errorMsg.style.display = 'none';
+    form.reset();
+    saveAndRender();
+});
+
+function saveAndRender() {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    render();
+}
+
+function render() {
+    list.innerHTML = '';
+    
+    const filtered = tasks.filter(t => {
+        const statusMatch = currentFilter === 'all' || 
+                           (currentFilter === 'active' && !t.done) || 
+                           (currentFilter === 'completed' && t.done);
+        const tagMatch = currentTagFilter === 'all' || t.tag === currentTagFilter;
+        return statusMatch && tagMatch;
+    });
+
+    filtered.forEach(task => {
+        const li = document.createElement('li');
+        li.className = `task-item ${task.done ? 'completed' : ''}`;
+        li.innerHTML = `
+            <div>
+                <span class="tag-label">${task.tag}</span>
+                <span class="task-text">${task.text}</span>
             </div>
-            <button type="submit" id="add-btn">Add Task</button>
-            <p id="error-msg" style="color:red; display:none; font-size: 0.8rem; margin-top: 5px;">
-                Task name cannot be blank!
-            </p>
-        </form>
-
-        <hr>
-
-        <div class="filter-section">
-            <div class="filter-btns">
-                <button onclick="setFilter('all')" class="active">All</button>
-                <button onclick="setFilter('active')">Active</button>
-                <button onclick="setFilter('completed')">Completed</button>
+            <div class="actions">
+                <button onclick="toggleTask(${task.id})">${task.done ? 'Undo' : 'Done'}</button>
+                <button class="delete-btn" onclick="deleteTask(${task.id})">Delete</button>
             </div>
-            
-            <div class="tag-filter-container">
-                <label for="tag-filter">Filter by Tag:</label>
-                <select id="tag-filter" onchange="setTagFilter(this.value)">
-                    <option value="all">All Tags</option>
-                    <option value="school">School</option>
-                    <option value="work">Work</option>
-                    <option value="personal">Personal</option>
-                    <option value="none">No Tag</option>
-                </select>
-            </div>
-        </div>
+        `;
+        list.appendChild(li);
+    });
 
-        <p id="counter">0 active tasks</p>
+    const activeCount = tasks.filter(t => !t.done).length;
+    counter.innerText = `${activeCount} active task${activeCount !== 1 ? 's' : ''}`;
+}
 
-        <ul id="todo-list">
-            </ul>
-    </div>
+// Global functions for interaction
+window.toggleTask = (id) => {
+    tasks = tasks.map(t => t.id === id ? {...t, done: !t.done} : t);
+    saveAndRender();
+};
 
-    <script src="script.js"></script>
-</body>
-</html>
+window.deleteTask = (id) => {
+    tasks = tasks.filter(t => t.id !== id);
+    saveAndRender();
+};
+
+window.setFilter = (f) => {
+    currentFilter = f;
+    // Update UI active state
+    document.querySelectorAll('.filter-btns button').forEach(btn => {
+        btn.classList.toggle('active', btn.innerText.toLowerCase() === f);
+    });
+    render();
+};
+
+window.setTagFilter = (t) => {
+    currentTagFilter = t;
+    render();
+};
+
+// Initial Render
+render();
