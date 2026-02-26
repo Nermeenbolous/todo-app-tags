@@ -3,48 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaskFlow | To-Do App</title>
+    <title>Task Manager | Persistence & Tags</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>TaskFlow</h1>
+
+    <div id="app">
+        <h1>Task Manager</h1>
         
-        <form id="task-form">
-            <div class="input-group">
-                <input type="text" id="task-input" placeholder="What needs to be done?">
-                <select id="tag-select">
-                    <option value="general">General</option>
+        <form id="todo-form">
+            <div class="input-row">
+                <input type="text" id="task-input" placeholder="What needs to be done?" aria-label="Task name">
+                <select id="tag-input" aria-label="Select Tag">
+                    <option value="">No Tag</option>
                     <option value="school">School</option>
                     <option value="work">Work</option>
                     <option value="personal">Personal</option>
                 </select>
-                <button type="submit">Add</button>
             </div>
-            <p id="error-msg" class="error hidden">Task name cannot be blank!</p>
+            <button type="submit" id="add-btn">Add Task</button>
+            <p id="error-msg" style="color:red; display:none; font-size: 0.8rem; margin-top: 5px;">
+                Task name cannot be blank!
+            </p>
         </form>
 
-        <div class="controls">
-            <div class="status-filters">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="active">Active</button>
-                <button class="filter-btn" data-filter="completed">Completed</button>
+        <hr>
+
+        <div class="filter-section">
+            <div class="filter-btns">
+                <button onclick="setFilter('all')" class="active">All</button>
+                <button onclick="setFilter('active')">Active</button>
+                <button onclick="setFilter('completed')">Completed</button>
             </div>
-            <select id="tag-filter">
-                <option value="all">All Tags</option>
-                <option value="general">General</option>
-                <option value="school">School</option>
-                <option value="work">Work</option>
-                <option value="personal">Personal</option>
-            </select>
+            
+            <div class="tag-filter-container">
+                <label for="tag-filter">Filter by Tag:</label>
+                <select id="tag-filter" onchange="setTagFilter(this.value)">
+                    <option value="all">All Tags</option>
+                    <option value="school">School</option>
+                    <option value="work">Work</option>
+                    <option value="personal">Personal</option>
+                    <option value="none">No Tag</option>
+                </select>
+            </div>
         </div>
 
-        <ul id="task-list"></ul>
+        <p id="counter">0 active tasks</p>
 
-        <div class="footer">
-            <span id="active-count">0 active tasks</span>
-        </div>
+        <ul id="todo-list">
+            </ul>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
