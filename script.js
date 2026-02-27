@@ -5,76 +5,95 @@ let currentTagFilter = 'all';
 const form = document.getElementById('todo-form');
 const taskInput = document.getElementById('task-input');
 const tagInput = document.getElementById('tag-input');
-const list = document.getElementById('todo-list');
+const taskList = document.getElementById('task-list');
+const activeCount = document.getElementById('active-count');
+const errorMsg = document.getElementById('error-msg');
 
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-  if (!taskInput.value.trim()) {
-    document.getElementById('error-msg').style.display = 'block';
-    return;
-  }
-  
-  const newTask = {
-    id: Date.now(),
-    text: taskInput.value,
-    tag: tagInput.value || 'none',
-    done: false
-  };
-
-  tasks.push(newTask);
-  saveAndRender();
-  form.reset();
-  document.getElementById('error-msg').style.display = 'none';
-});
+// --- Core Functions ---
 
 function saveAndRender() {
-  localStorage.setItem('tasks', JSON.stringify(tasks));
-  render();
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    render();
 }
 
 function render() {
-  list.innerHTML = '';
-  
-  const filtered = tasks.filter(t => {
-    const statusMatch = currentFilter === 'all' || 
-                       (currentFilter === 'active' && !t.done) || 
-                       (currentFilter === 'completed' && t.done);
-    const tagMatch = currentTagFilter === 'all' || t.tag === currentTagFilter;
-    return statusMatch && tagMatch;
-  });
+    taskList.innerHTML = '';
+    
+    const filteredTasks = tasks.filter(task => {
+        const matchesStatus = 
+            currentFilter === 'all' ? true :
+            currentFilter === 'active' ? !task.done : task.done;
+        
+        const matchesTag = 
+            currentTagFilter === 'all' ? true : task.tag === currentTagFilter;
+            
+        return matchesStatus && matchesTag;
+    });
 
-  filtered.forEach(task => {
-    const li = document.createElement('li');
-    li.style.display = 'flex';
-    li.style.justifyContent = 'space-between';
-    li.style.marginBottom = '10px';
-    li.innerHTML = `
-      <span style="${task.done ? 'text-decoration: line-through' : ''}">
-        <strong>[${task.tag}]</strong> ${task.text}
-      </span>
-      <div>
-        <button onclick="toggleTask(${task.id})">${task.done ? 'Undo' : 'Done'}</button>
-        <button onclick="deleteTask(${task.id})">Delete</button>
-      </div>
-    `;
-    list.appendChild(li);
-  });
+    filteredTasks.forEach(task => {
+        const li = document.createElement('li');
+        li.className = `task-item ${task.done ? 'completed' : ''}`;
+        li.innerHTML = `
+            <div class="task-info">
+                <input type="checkbox" ${task.done ? 'checked' : ''} onclick="toggleTask(${task.id})">
+                <span>${task.text}</span>
+                ${task.tag ? `<span class="tag-badge">${task.tag}</span>` : ''}
+            </div>
+            <button class="delete-btn" onclick="deleteTask(${task.id})">×</button>
+        `;
+        taskList.appendChild(li);
+    });
 
-  const activeCount = tasks.filter(t => !t.done).length;
-  document.getElementById('counter').innerText = `${activeCount} active tasks`;
+    const activeTotal = tasks.filter(t => !t.done).length;
+    activeCount.innerText = `${activeTotal} active task${activeTotal !== 1 ? 's' : ''}`;
 }
 
+// --- Event Handlers ---
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const text = taskInput.value.trim();
+    const tag = tagInput.value;
+
+    if (!text) {
+        errorMsg.classList.remove('hidden');
+        return;
+    }
+
+    errorMsg.classList.add('hidden');
+    const newTask = { id: Date.now(), text, tag, done: false };
+    tasks.push(newTask);
+    
+    taskInput.value = '';
+    tagInput.value = '';
+    saveAndRender();
+});
+
 window.toggleTask = (id) => {
-  tasks = tasks.map(t => t.id === id ? {...t, done: !t.done} : t);
-  saveAndRender();
+    tasks = tasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
+    saveAndRender();
 };
 
 window.deleteTask = (id) => {
-  tasks = tasks.filter(t => t.id !== id);
-  saveAndRender();
+    tasks = tasks.filter(t => t.id !== id);
+    saveAndRender();
 };
 
-window.setFilter = (f) => { currentFilter = f; render(); };
-window.setTagFilter = (t) => { currentTagFilter = t; render(); };
+// --- Filter Listeners ---
 
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        document.querySelector('.filter-btn.active').classList.remove('active');
+        e.target.classList.add('active');
+        currentFilter = e.target.dataset.filter;
+        render();
+    });
+});
+
+document.getElementById('tag-filter').addEventListener('change', (e) => {
+    currentTagFilter = e.target.value;
+    render();
+});
+
+// Initial Render
 render();
