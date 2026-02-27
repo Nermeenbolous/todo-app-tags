@@ -10,21 +10,22 @@
     <div class="container">
         <h1>TaskFlow</h1>
         
-       <form id="todo-form">
-    <input type="text" id="task-input" placeholder="What needs to be done?">
-    <select id="tag-input">
-        <option value="">No Tag</option>
-        <option value="school">School</option>
-        <option value="work">Work</option>
-        <option value="personal">Personal</option>
-    </select>
-    <button type="submit" id="add-btn">Add Task</button>
+     <form id="todo-form">
+    <div class="input-group">
+        <input type="text" id="task-input" placeholder="What needs to be done?">
+        <select id="tag-input">
+            <option value="">No Tag</option>
+            <option value="school">School</option>
+            <option value="work">Work</option>
+            <option value="personal">Personal</option>
+        </select>
+        <button type="submit">Add Task</button>
+    </div>
     
     <div id="error-msg" class="error-box" style="display: none;">
         <strong>Error:</strong> Please enter a task name!
     </div>
-
-        </form>
+</form>
 
         <div class="controls">
             <div class="status-filters">
