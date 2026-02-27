@@ -1,5 +1,5 @@
-# todo-app-tags
-# To-Do List App with Tagging
+
+ To-Do List App with Tagging
 
 A modern, functional To-Do list application built with HTML, CSS, and JavaScript. This project supports task management, categorization through tags, and persistent data storage.
 
