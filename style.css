@@ -23,17 +23,18 @@ body {
     border-radius: 1rem;
     box-shadow: 0 10px 25px rgba(0,0,0,0.05);
 .error-box {
-    background-color: #fee2e2; 
-    border: 1px solid #ef4444; 
-    color: #b91c1c;           
+    background-color: #fee2e2; /* Light red background */
+    color: #dc2626;           /* Dark red text */
+    border: 1px solid #fca5a5;
     padding: 12px;
+    margin-top: 10px;
     border-radius: 6px;
-    margin-bottom: 10px;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-   
+    font-size: 14px;
+}
+
+/* Optional: turns the input border red when empty */
+.input-error {
+    border: 2px solid #dc2626 !important;
 }
 
 
