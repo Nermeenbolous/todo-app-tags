@@ -1,98 +1,47 @@
-// Initialize state from localStorage
-let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-let currentFilter = 'all';
-let currentTagFilter = 'all';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow - To-Do List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>TaskFlow</h1>
+        
+        <form id="todo-form">
+            <input type="text" id="task-input" placeholder="What needs to be done?">
+            <select id="tag-input">
+                <option value="">No Tag</option>
+                <option value="school">School</option>
+                <option value="work">Work</option>
+                <option value="personal">Personal</option>
+            </select>
+            <button type="submit">Add Task</button>
+            <p id="error-msg" class="hidden">Task name cannot be blank!</p>
+        </form>
 
-const form = document.getElementById('todo-form');
-const taskInput = document.getElementById('task-input');
-const tagInput = document.getElementById('tag-input');
-const list = document.getElementById('todo-list');
-const errorMsg = document.getElementById('error-msg');
-const counter = document.getElementById('counter');
-
-// Add Task
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const text = taskInput.value.trim();
-    if (!text) {
-        errorMsg.style.display = 'block';
-        return;
-    }
-
-    const newTask = {
-        id: Date.now(),
-        text: text,
-        tag: tagInput.value || 'personal', // Default to personal if no tag selected
-        done: false
-    };
-
-    tasks.push(newTask);
-    errorMsg.style.display = 'none';
-    form.reset();
-    saveAndRender();
-});
-
-function saveAndRender() {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    render();
-}
-
-function render() {
-    list.innerHTML = '';
-    
-    const filtered = tasks.filter(t => {
-        const statusMatch = currentFilter === 'all' || 
-                           (currentFilter === 'active' && !t.done) || 
-                           (currentFilter === 'completed' && t.done);
-        const tagMatch = currentTagFilter === 'all' || t.tag === currentTagFilter;
-        return statusMatch && tagMatch;
-    });
-
-    filtered.forEach(task => {
-        const li = document.createElement('li');
-        li.className = `task-item ${task.done ? 'completed' : ''}`;
-        li.innerHTML = `
-            <div>
-                <span class="tag-label">${task.tag}</span>
-                <span class="task-text">${task.text}</span>
+        <div class="controls">
+            <div class="status-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="active">Active</button>
+                <button class="filter-btn" data-filter="completed">Completed</button>
             </div>
-            <div class="actions">
-                <button onclick="toggleTask(${task.id})">${task.done ? 'Undo' : 'Done'}</button>
-                <button class="delete-btn" onclick="deleteTask(${task.id})">Delete</button>
-            </div>
-        `;
-        list.appendChild(li);
-    });
+            <select id="tag-filter">
+                <option value="all">All Tags</option>
+                <option value="school">School</option>
+                <option value="work">Work</option>
+                <option value="personal">Personal</option>
+            </select>
+        </div>
 
-    const activeCount = tasks.filter(t => !t.done).length;
-    counter.innerText = `${activeCount} active task${activeCount !== 1 ? 's' : ''}`;
-}
+        <ul id="task-list"></ul>
 
-// Global functions for interaction
-window.toggleTask = (id) => {
-    tasks = tasks.map(t => t.id === id ? {...t, done: !t.done} : t);
-    saveAndRender();
-};
-
-window.deleteTask = (id) => {
-    tasks = tasks.filter(t => t.id !== id);
-    saveAndRender();
-};
-
-window.setFilter = (f) => {
-    currentFilter = f;
-    // Update UI active state
-    document.querySelectorAll('.filter-btns button').forEach(btn => {
-        btn.classList.toggle('active', btn.innerText.toLowerCase() === f);
-    });
-    render();
-};
-
-window.setTagFilter = (t) => {
-    currentTagFilter = t;
-    render();
-};
-
-// Initial Render
-render();
+        <div class="footer">
+            <span id="active-count">0 active tasks</span>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
