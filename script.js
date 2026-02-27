@@ -56,7 +56,27 @@ form.addEventListener('submit', (e) => {
         return; 
     }
 
-   
+   const todoForm = document.getElementById('todo-form');
+const taskInput = document.getElementById('task-input');
+const errorMsg = document.getElementById('error-msg');
+
+todoForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    // .trim() removes empty spaces
+    if (taskInput.value.trim() === "") {
+        errorMsg.style.display = "block"; // Show the error
+        taskInput.classList.add('input-error'); // Optional: red border for input
+    } else {
+        errorMsg.style.display = "none"; // Hide the error
+        taskInput.classList.remove('input-error');
+        
+        // Call your existing function to add the task here
+        // addTask(taskInput.value); 
+        
+        taskInput.value = ""; // Clear input after success
+    }
+});
     errorBox.classList.add('hidden');
     
  
