@@ -15,7 +15,43 @@ function saveAndRender() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
     render();
 }
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const taskText = taskInput.value.trim();
+    const errorBox = document.getElementById('error-msg');
 
+    // Validation Logic
+    if (taskText === "") {
+        // 1. Show the error box
+        errorBox.classList.remove('hidden');
+        
+        // 2. Focus back on the input for the user
+        taskInput.focus();
+        
+        // 3. Optional: Auto-hide after 3 seconds
+        setTimeout(() => {
+            errorBox.classList.add('hidden');
+        }, 3000);
+        
+        return; // Stop the function here
+    }
+
+    // If text exists, hide the error and proceed
+    errorBox.classList.add('hidden');
+    
+    // Create task logic...
+    const newTask = { 
+        id: Date.now(), 
+        text: taskText, 
+        tag: tagInput.value, 
+        done: false 
+    };
+    
+    tasks.push(newTask);
+    saveAndRender();
+    taskInput.value = ''; // Clear form
+});
 function render() {
     taskList.innerHTML = '';
     
