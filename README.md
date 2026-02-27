@@ -18,7 +18,9 @@ A modern, functional To-Do list application built with HTML, CSS, and JavaScript
 
 ## 📸 Screenshot
 ### Desktop View
-![Desktop Screenshot](./assets/desktop_view.png)
+![Desktop Screenshot](./assets/To-Do-List_screenshot.png)
+![Desktop Screenshot](./assets/Todo-list screenshot.png)
+
 
 
 ## 🛠️ Built With
