@@ -19,8 +19,12 @@ A modern, functional To-Do list application built with HTML, CSS, and JavaScript
 ## 📸 Screenshot
 ### Desktop View
 ![Desktop Screenshot](./assets/To-Do-List_screenshot.png)
-![Desktop Screenshot](./assets/Todo-list screenshot.png)
+### Mobile View
+![Mobile Screenshot](./assets/Todo-list screenshot.png)
 
+## Links
+* **GitHub Repository:** https://github.com/Nermeenbolous/my-portfolio-landing/settings/pages
+* **GitHub Pages Live Site:**  https://nermeenbolous.github.io/my-portfolio-landing/
 
 
 ## 🛠️ Built With
