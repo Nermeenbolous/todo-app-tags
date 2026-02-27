@@ -1,174 +1,39 @@
-let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-let currentFilter = 'all';
-let currentTagFilter = 'all';
-
-const form = document.getElementById('todo-form');
-const taskInput = document.getElementById('task-input');
-const tagInput = document.getElementById('tag-input');
-const taskList = document.getElementById('task-list');
-const activeCount = document.getElementById('active-count');
-const errorMsg = document.getElementById('error-msg');
-
-const todoForm = document.getElementById('todo-form');
-const taskInput = document.getElementById('task-input');
-const errorMsg = document.getElementById('error-msg');
-
-todoForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    
-    if (taskInput.value.trim() === "") {
-        errorMsg.style.display = "block"; // Show error
-        return; // Stop the function here
-    }
-
-    
-    errorMsg.style.display = "none"; // Hide error
-    
-  
-    addTask(taskInput.value); 
-    taskInput.value = ""; // Clear input
-});
-
-function saveAndRender() {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    render();
-}
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     
     const taskText = taskInput.value.trim();
-    const errorBox = document.getElementById('error-msg');
+    const tag = tagInput.value;
 
-    // Validation Logic
+    // 1. Validation Logic
     if (taskText === "") {
-        // 1. Show the error box
-        errorBox.classList.remove('hidden');
+        // Show the error by removing the 'hidden' class
+        errorMsg.classList.remove('hidden');
         
-        // 2. Focus back on the input for the user
+        // Focus back on the input for the user
         taskInput.focus();
         
-        // 3. Optional: Auto-hide after 3 seconds
+        // Optional: Auto-hide error message after 3 seconds
         setTimeout(() => {
-            errorBox.classList.add('hidden');
+            errorMsg.classList.add('hidden');
         }, 3000);
         
-        return; 
+        return; // Stop the function here
     }
 
-   const todoForm = document.getElementById('todo-form');
-const taskInput = document.getElementById('task-input');
-const errorMsg = document.getElementById('error-msg');
-
-todoForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    // .trim() removes empty spaces
-    if (taskInput.value.trim() === "") {
-        errorMsg.style.display = "block"; // Show the error
-        taskInput.classList.add('input-error'); // Optional: red border for input
-    } else {
-        errorMsg.style.display = "none"; // Hide the error
-        taskInput.classList.remove('input-error');
-        
-        // Call your existing function to add the task here
-        // addTask(taskInput.value); 
-        
-        taskInput.value = ""; // Clear input after success
-    }
-});
-    errorBox.classList.add('hidden');
+    // 2. Success Logic (if text is not empty)
+    errorMsg.classList.add('hidden'); // Hide error message
     
- 
     const newTask = { 
         id: Date.now(), 
         text: taskText, 
-        tag: tagInput.value, 
+        tag: tag, 
         done: false 
     };
     
     tasks.push(newTask);
-    saveAndRender();
+    
+    // 3. Clear inputs and refresh list
     taskInput.value = ''; 
-});
-function render() {
-    taskList.innerHTML = '';
-    
-    const filteredTasks = tasks.filter(task => {
-        const matchesStatus = 
-            currentFilter === 'all' ? true :
-            currentFilter === 'active' ? !task.done : task.done;
-        
-        const matchesTag = 
-            currentTagFilter === 'all' ? true : task.tag === currentTagFilter;
-            
-        return matchesStatus && matchesTag;
-    });
-
-    filteredTasks.forEach(task => {
-        const li = document.createElement('li');
-        li.className = `task-item ${task.done ? 'completed' : ''}`;
-        li.innerHTML = `
-            <div class="task-info">
-                <input type="checkbox" ${task.done ? 'checked' : ''} onclick="toggleTask(${task.id})">
-                <span>${task.text}</span>
-                ${task.tag ? `<span class="tag-badge">${task.tag}</span>` : ''}
-            </div>
-            <button class="delete-btn" onclick="deleteTask(${task.id})">×</button>
-        `;
-        taskList.appendChild(li);
-    });
-
-    const activeTotal = tasks.filter(t => !t.done).length;
-    activeCount.innerText = `${activeTotal} active task${activeTotal !== 1 ? 's' : ''}`;
-}
-
-
-
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const text = taskInput.value.trim();
-    const tag = tagInput.value;
-
-    if (!text) {
-        errorMsg.classList.remove('hidden');
-        return;
-    }
-
-    errorMsg.classList.add('hidden');
-    const newTask = { id: Date.now(), text, tag, done: false };
-    tasks.push(newTask);
-    
-    taskInput.value = '';
     tagInput.value = '';
     saveAndRender();
 });
-
-window.toggleTask = (id) => {
-    tasks = tasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
-    saveAndRender();
-};
-
-window.deleteTask = (id) => {
-    tasks = tasks.filter(t => t.id !== id);
-    saveAndRender();
-};
-
-
-
-document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        document.querySelector('.filter-btn.active').classList.remove('active');
-        e.target.classList.add('active');
-        currentFilter = e.target.dataset.filter;
-        render();
-    });
-});
-
-document.getElementById('tag-filter').addEventListener('change', (e) => {
-    currentTagFilter = e.target.value;
-    render();
-});
-
-
-render();
