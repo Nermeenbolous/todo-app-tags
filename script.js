@@ -25,7 +25,7 @@ todoForm.addEventListener('submit', (e) => {
     
     errorMsg.style.display = "none"; // Hide error
     
-    // ... rest of your code to add the task ...
+  
     addTask(taskInput.value); 
     taskInput.value = ""; // Clear input
 });
