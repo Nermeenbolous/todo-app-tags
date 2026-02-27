@@ -29,4 +29,4 @@ A modern, functional To-Do list application built with HTML, CSS, and JavaScript
 ## 🛠️ Built With
 * HTML5
 * CSS3
-* JavaScript (ES6)
+* JavaScript
