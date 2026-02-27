@@ -17,7 +17,7 @@ A modern, functional To-Do list application built with HTML, CSS, and JavaScript
 **Management**: Mark tasks as complete or delete them permanently.
 
 ## 📸 Screenshot
-Todo-list screenshot.png
+
 
 ## 🛠️ Built With
 * HTML5
