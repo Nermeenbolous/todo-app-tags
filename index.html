@@ -19,9 +19,13 @@
                 <option value="personal">Personal</option>
             </select>
             <button type="submit">Add Task</button>
-           <div id="error-msg" class="error-box hidden">
-    <strong>Wait!</strong> Task name cannot be blank.
-</div>
+          <form id="todo-form">
+    <div id="error-msg" class="error-box hidden">
+        <strong>Error:</strong> Please enter a task name!
+    </div>
+
+    <input type="text" id="task-input" placeholder="What needs to be done?">
+    </form>
         </form>
 
         <div class="controls">
