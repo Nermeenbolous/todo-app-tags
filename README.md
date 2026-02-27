@@ -19,8 +19,8 @@ A modern, functional To-Do list application built with HTML, CSS, and JavaScript
 ## 📸 Screenshot
 ### Desktop View
 ![Desktop Screenshot](./assets/To-Do-List_screenshot.png)
-### Mobile View
-![Mobile Screenshot](./assets/Todo-List_screenshot.png)
+
+![Desktop Screenshot](./assets/Todo-List_screenshot.png)
 
 ## Links
 * **GitHub Repository:** https://github.com/Nermeenbolous/To-Do-List
