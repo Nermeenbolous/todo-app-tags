@@ -3,8 +3,6 @@
 
 A modern, functional To-Do list application built with HTML, CSS, and JavaScript. This project supports task management, categorization through tags, and persistent data storage.
 
-## 🚀 Live Demo
-[View the Live App here](https://nermeenbolous.github.io/todo-app-tags/)
 
 ## ✨ Features
  **Add Tasks**: Create tasks with a required name and an optional tag (School, Work, Personal).
@@ -19,6 +17,7 @@ A modern, functional To-Do list application built with HTML, CSS, and JavaScript
 ## 📸 Screenshot
 ### Desktop View
 ![Desktop Screenshot](./assets/To-Do-List_screenshot.png)
+
 ![Desktop Screenshot](./assets/Todo-List_screenshot.png)
 
 
