@@ -24,19 +24,16 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.05);
 }
 .error-box {
-    background-color: #fee2e2; /* Light red background */
-    border: 1px solid #ef4444; /* Darker red border */
-    color: #b91c1c;            /* Deep red text */
-    padding: 12px;
-    border-radius: 6px;
-    margin-bottom: 10px;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    /* Optional: subtle animation */
-    animation: fadeIn 0.3s ease;
+    background-color: #ffe6e6;
+    color: #cc0000;
+    border: 1px solid #cc0000;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 0.9em;
 }
+
 
 .hidden {
     display: none !important;
