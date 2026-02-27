@@ -9,7 +9,26 @@ const taskList = document.getElementById('task-list');
 const activeCount = document.getElementById('active-count');
 const errorMsg = document.getElementById('error-msg');
 
-// --- Core Functions ---
+const todoForm = document.getElementById('todo-form');
+const taskInput = document.getElementById('task-input');
+const errorMsg = document.getElementById('error-msg');
+
+todoForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    
+    if (taskInput.value.trim() === "") {
+        errorMsg.style.display = "block"; // Show error
+        return; // Stop the function here
+    }
+
+    
+    errorMsg.style.display = "none"; // Hide error
+    
+    // ... rest of your code to add the task ...
+    addTask(taskInput.value); 
+    taskInput.value = ""; // Clear input
+});
 
 function saveAndRender() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -34,13 +53,13 @@ form.addEventListener('submit', (e) => {
             errorBox.classList.add('hidden');
         }, 3000);
         
-        return; // Stop the function here
+        return; 
     }
 
-    // If text exists, hide the error and proceed
+   
     errorBox.classList.add('hidden');
     
-    // Create task logic...
+ 
     const newTask = { 
         id: Date.now(), 
         text: taskText, 
@@ -50,7 +69,7 @@ form.addEventListener('submit', (e) => {
     
     tasks.push(newTask);
     saveAndRender();
-    taskInput.value = ''; // Clear form
+    taskInput.value = ''; 
 });
 function render() {
     taskList.innerHTML = '';
@@ -84,7 +103,7 @@ function render() {
     activeCount.innerText = `${activeTotal} active task${activeTotal !== 1 ? 's' : ''}`;
 }
 
-// --- Event Handlers ---
+
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -115,7 +134,7 @@ window.deleteTask = (id) => {
     saveAndRender();
 };
 
-// --- Filter Listeners ---
+
 
 document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -131,5 +150,5 @@ document.getElementById('tag-filter').addEventListener('change', (e) => {
     render();
 });
 
-// Initial Render
+
 render();
